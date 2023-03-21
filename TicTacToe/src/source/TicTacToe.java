@@ -20,22 +20,14 @@ public class TicTacToe {
 		perfekt
 	}
 	public void initialisieren() {
-		if(Math.round(Math.random())==1) {
-			p1Start=true;
-		}
-		else {
-			p1Start=false;
-		}
 		System.out.print("Moechtest du gegen eine KI spielen?");
 		String  input=sc.nextLine();
-//		String input="n";//nach dem Testen löschen
+//		String input="y";//nach dem Testen löschen
 		input=input.toLowerCase();
 		if(input.equals("ja")||input.equals("y")){
 			System.out.println("Welchen Schwierigkeitsgrad moechtest du? leicht, einfach, mittel ,schwer oder perfekt");
 			try {
-//				eration.valueOf(sc.nextLine().toLowerCase());
-				eration.valueOf("leicht");//nach dem Testen entfernen
-//				eration.
+				eration.valueOf(sc.nextLine().toLowerCase());
 			}
 			catch(RuntimeException e){
 				System.out.println("\n Der Schwierigkeitsgrad  muss eine Zahl sein! Der Schwierigkeitsgrad ist jetzt maximal schwer.");
@@ -49,11 +41,29 @@ public class TicTacToe {
 	}
 	public void startGame() {
 		zahler=0;
-		if(hasKi) {
-			spielenKi(eration.values()[schwierigkeitsgrad]);
+		if(Math.round(Math.random())==1) {
+			p1Start=true;
 		}
 		else {
-			spielen2p();
+			p1Start=false;
+		}
+		p1Turn=p1Start;
+		while(!hasWon()) {
+			if(p1Turn) {
+				printField();
+				System.out.println("Waehle Zeile und Spalte");
+				eingabe(true);
+			}
+			else if(hasKi) {
+				spielenKi(eration.leicht/*values()[schwierigkeitsgrad]*/);
+			}
+			else {
+				spielen2p();
+			}
+			changeTurn();
+			if(zahler>=9) {//bendet das Spiel bei einem Unentschieden
+				break;
+			}
 		}
 		printScore(hasKi);
 	}
@@ -90,68 +100,24 @@ public class TicTacToe {
 			case perfekt:
 				break;
 		}
-		while(!hasWon()) {
-			if(p1Turn) {
-				break;
-			}
-		}
 	}
-	public void ki0() {//wird gerade bearbeitet
-		while(!hasWon()){
-			if(p1Turn) {
-				printField();
-				System.out.println("Waehle Zeile und Spalte");
-				eingabe(true);
-			}
-			else {
-				boolean doPlacement=true;
-				while(doPlacement) {
-					z=(int)Math.round(Math.random()*2);
-					s=(int)Math.round(Math.random()*2);
-					if(istFrei(z, s)) {
-						felder[z][s]='O';
-						doPlacement=false;
-					}
-				}
-			}
-			p1Turn=!p1Turn;
-			zahler++;
-			if(zahler<=9) {
-				zahler=-1;
-				break;
+	public void ki1() {//wird gerade bearbeitet
+		
+	}
+	public void ki0() {
+		boolean doPlacement=true;
+		while(doPlacement) {
+			z=(int)Math.round(Math.random()*2);
+			s=(int)Math.round(Math.random()*2);
+			if(istFrei(z, s)) {
+				felder[z][s]='O';
+				doPlacement=false;
 			}
 		}
 	}
 	public void spielen2p() {
-		while(!hasWon()) {
-			if(p1Turn) {
-				System.out.println("Spieler 1: Waehle die Zeile und die Spalte");
-			}
-			else {
-				System.out.println("Spieler 2: Waehle die Zeile und die Spalte");
-			}
-			eingabe(p1Turn);
-			p1Turn=!p1Turn;
-			zahler++;
-			printField();
-			if(zahler>=9) {
-				zahler=-1;
-				break;
-			}
-		}
-		if(zahler==-1) {
-			System.out.println("Unentschieden!");
-		}
-		else {
-			if(!p1Turn) {
-				System.out.println("Spieler 1 hat gewonnen");
-				score[0]++;
-			}
-			else {
-				System.out.println("Spieler 2 hat gewonnen");
-				score[1]++;
-			}
-		}
+		System.out.println("Spieler 2: Waehle die Zeile und die Spalte");
+		eingabe(false);
 	}
 	public void eingabe(boolean p1Zug) {
 		try {
@@ -171,7 +137,7 @@ public class TicTacToe {
 			}
 		}
 		else {
-			System.out.println("Deine Eingabe war Fehlerinhaltig! Try again");
+			System.out.println("Deine Eingabe war Fehlerhaltig! Try again");
 			eingabe(p1Zug);
 		}
 	}
@@ -220,5 +186,10 @@ public class TicTacToe {
 		else{
 			System.out.println("Spieler 1 hat "+Integer.toString(score[0])+" mal gewonnen, Spieler 2 hat "+Integer.toString(score[1])+" mal gewonnen");
 		}
+	}
+	public void changeTurn() {
+		p1Turn=!p1Turn;
+		zahler++;
+		printField();
 	}
 }

@@ -19,6 +19,12 @@ public class Main {
 				}
 			}
 			while(nochmal);
+			if(ttt.hasKi) {
+				
+			}
+			else {
+				System.out.println("Endergebnis: Spieler1 : "+Integer.toString(ttt.score[0])+" Siege, Spieler2: "+Integer.toString(ttt.score[1])+" Siege");
+			}
 		}
 	}
 }
