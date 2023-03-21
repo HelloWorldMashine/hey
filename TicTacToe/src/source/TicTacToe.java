@@ -26,7 +26,7 @@ public class TicTacToe {
 			p1Start=false;
 		}
 		System.out.print("Moechtest du gegen eine KI spielen?");
-		String  input=sc.nextLine();  //for testing purposes
+		String  input=sc.nextLine();
 //		String input="n";//nach dem Testen löschen
 		input=input.toLowerCase();
 		if(input.equals("ja")||input.equals("y")){
@@ -73,18 +73,11 @@ public class TicTacToe {
 		System.out.println("");
 	}
 	public void spielenKi(eration difclty) {//gegen KI spielen
-		boolean p1Turn;
-		if(p1Start) {
-			p1Turn=true;
-		}
-		else {
-			p1Turn=false;
-		}
-		switch(difclty) {
 		boolean p1Turn=p1Start;
 		z=0;
 		s=0;
 		zahler=0;
+		switch(difclty) {
 			case leicht:
 				ki0();
 				break;
