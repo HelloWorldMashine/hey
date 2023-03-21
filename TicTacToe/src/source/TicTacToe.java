@@ -92,6 +92,7 @@ public class TicTacToe {
 				ki0();
 				break;
 			case einfach:
+				ki1();
 				break;
 			case mittel:
 				break;
@@ -102,7 +103,13 @@ public class TicTacToe {
 		}
 	}
 	public void ki1() {//wird gerade bearbeitet
-		
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<3;j++) {
+				if(felder[i][0]==felder[i][1] && istFrei(i, j)) {//Wenn 2 Felder gleicun und !gleich 0 : auf 3. Feld
+					felder[i][2]='O';
+				}
+			}
+		}
 	}
 	public void ki0() {
 		boolean doPlacement=true;
