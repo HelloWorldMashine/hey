@@ -30,7 +30,7 @@ public class TicTacToe {
 				eration.valueOf(sc.nextLine().toLowerCase());
 			}
 			catch(RuntimeException e){
-				System.out.println("\n Der Schwierigkeitsgrad  muss eine Zahl sein! Der Schwierigkeitsgrad ist jetzt maximal schwer.");
+				System.out.println("\n Den Schwierigkeitsgrad gibt es nicht! Der Schwierigkeitsgrad ist jetzt maximal schwer.");
 				eration.valueOf("leicht");//soll eigentlich perfekt sein
 			}
 			hasKi=true;
@@ -51,8 +51,21 @@ public class TicTacToe {
 		while(!hasWon()) {
 			if(p1Turn) {
 				printField();
-				System.out.println("Waehle Zeile und Spalte");
-				eingabe(true);
+				if(hasKi) {
+					System.out.println("Waehle Zeile und Spalte");
+				}
+				else {
+					System.out.println("Spieler 1: Waehle die Zeile und die Spalte");
+				}
+				for(boolean doRepeat=true;doRepeat;) {
+					try {
+						eingabe(true);
+						doRepeat=false;
+					}
+					catch(illegalMoveException f){
+						f.printStackTrace();
+					}
+				}
 			}
 			else if(hasKi) {
 				spielenKi(eration.leicht/*values()[schwierigkeitsgrad]*/);
@@ -64,6 +77,13 @@ public class TicTacToe {
 			if(zahler>=9) {//bendet das Spiel bei einem Unentschieden
 				break;
 			}
+		}
+		printField();
+		if(!p1Turn) {
+			score[0]++;
+		}
+		else {
+			score[1]++;
 		}
 		printScore(hasKi);
 	}
@@ -105,7 +125,7 @@ public class TicTacToe {
 	public void ki1() {//wird gerade bearbeitet
 		for(int i=0;i<3;i++) {
 			for(int j=0;j<3;j++) {
-				if(felder[i][0]==felder[i][1] && istFrei(i, j)) {//Wenn 2 Felder gleicun und !gleich 0 : auf 3. Feld
+				if(felder[i][0]==felder[i][1] && istFrei(i, j)) {//Wenn 2 Felder gleich und !gleich 0 : auf 3. Feld
 					felder[i][2]='O';
 				}
 			}
@@ -123,10 +143,19 @@ public class TicTacToe {
 		}
 	}
 	public void spielen2p() {
+		printField();
 		System.out.println("Spieler 2: Waehle die Zeile und die Spalte");
-		eingabe(false);
+		for(boolean doRepeat=true;doRepeat;) {
+			try {
+				eingabe(true);
+				doRepeat=false;
+			}
+			catch(illegalMoveException f){
+				f.printStackTrace();
+			}
+		}
 	}
-	public void eingabe(boolean p1Zug) {
+	public void eingabe(boolean p1Zug) throws illegalMoveException {
 		try {
 			z=Integer.parseInt(sc.nextLine());
 			s=Integer.parseInt(sc.nextLine());
@@ -135,7 +164,7 @@ public class TicTacToe {
 			z=felder.length;
 			s=felder.length;
 		}
-		if(s<felder.length && z<felder.length && s>=0 && z>=0 && istFrei(z,s)) {
+		if(s<felder.length && z<felder.length && s>=0 && z>=0 && istFrei(z,s)) {//besser durch illegalMoveException
 			if(p1Zug) {
 				felder[z][s]='X';
 			}
@@ -144,8 +173,8 @@ public class TicTacToe {
 			}
 		}
 		else {
-			System.out.println("Deine Eingabe war Fehlerhaltig! Try again");
-			eingabe(p1Zug);
+			throw new illegalMoveException();
+//			eingabe(p1Zug);
 		}
 	}
 	public void resetField() {
@@ -197,6 +226,5 @@ public class TicTacToe {
 	public void changeTurn() {
 		p1Turn=!p1Turn;
 		zahler++;
-		printField();
 	}
 }

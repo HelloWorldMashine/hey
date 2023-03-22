@@ -9,7 +9,12 @@ public class Main {
 			do {
 				ttt.resetField();
 				ttt.startGame();
-				System.out.println("\n Moechtest du nochmal spielen?");
+				if(ttt.hasKi) {
+					System.out.println("\n Moechtest du nochmal spielen?");
+				}
+				else {
+					System.out.println("\n Moechtet ihr nochmal spielen?");
+				}
 				String nput=scan.nextLine().toLowerCase();
 				if(nput.equals("ja")||nput.equals("y")) {
 					nochmal=true;
@@ -20,10 +25,10 @@ public class Main {
 			}
 			while(nochmal);
 			if(ttt.hasKi) {
-				
+				System.out.println("Endergebnis: "+ttt.score[0]+" mal gewonnen und "+ttt.score[1]+" mal verloren");
 			}
 			else {
-				System.out.println("Endergebnis: Spieler1 : "+Integer.toString(ttt.score[0])+" Siege, Spieler2: "+Integer.toString(ttt.score[1])+" Siege");
+				System.out.println("Endergebnis: Spieler1: "+Integer.toString(ttt.score[0])+" Siege, Spieler2: "+Integer.toString(ttt.score[1])+" Siege");
 			}
 		}
 	}
